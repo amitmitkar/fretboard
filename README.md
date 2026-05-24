@@ -17,31 +17,10 @@ A lightweight C++ CLI tool for guitarists to visualize the fretboard, explore sc
 ## Preview
 
 ### Default View (Naturals Only)
-```text
-           0     1     2     3     4     5     6     7     8     9    10    11    12
-   E4| E  ||--F--|-----|--G--|-----|--A--|-----|--B--|--C--|-----|--D--|-----|--E--|
-   B3| B  ||--C--|-----|--D--|-----|--E--|--F--|-----|--G--|-----|--A--|-----|--B--|
-   G3| G  ||-----|--A--|-----|--B--|--C--|-----|--D--|-----|--E--|--F--|-----|--G--|
-   D3| D  ||-----|--E--|--F--|-----|--G--|-----|--A--|-----|--B--|--C--|-----|--D--|
-   A2| A  ||-----|--B--|--C--|-----|--D--|-----|--E--|--F--|-----|--G--|-----|--A--|
-   E2| E  ||--F--|-----|--G--|-----|--A--|-----|--B--|--C--|-----|--D--|-----|--E--|
-                          .           .           .           .                 :   
-```
+![Default View](preview_default.png)
 
 ### Scale Highlighting (C# Major)
-*Note: GitHub highlights `+` lines in green and `-` lines in red. In the actual CLI, scale notes are **Red**.*
-
-```diff
-Highlighted Scale: C# Major (RED)
-------------------------------------------------------
-           0     1     2     3     4     5     6     7     8     9    10    11    12
-   E4| E  ||--F--|-F#--|--G--|-G#--|--A--|-A#--|--B--|--C--|-C#--|--D--|-D#--|--E--|
--  B3| B  ||--C--|-C#--|--D--|-D#--|--E--|--F--|-F#--|--G--|-G#--|--A--|-A#--|--B--|
--  G3| G  ||-G#--|--A--|-A#--|--B--|--C--|-C#--|--D--|-D#--|--E--|--F--|-F#--|--G--|
--  D3| D  ||-D#--|--E--|--F--|-F#--|--G--|-G#--|--A--|-A#--|--B--|--C--|-C#--|--D--|
--  A2| A  ||-A#--|--B--|--C--|-C#--|--D--|-D#--|--E--|--F--|-F#--|--G--|-G#--|--A--|
--  E2| E  ||--F--|-F#--|--G--|-G#--|--A--|-A#--|--B--|--C--|-C#--|--D--|-D#--|--E--|
-```
+![Scale Highlighting](preview_scale.png)
 
 ## Getting Started
 
