@@ -67,45 +67,53 @@ void FretBoard::clearHighlights() {
 }
 
 void FretBoard::render(bool showAccidentals, int startFret, int endFret) {
+    // Normalize fret range: ensure endFret doesn't exceed board capacity
     if (endFret == -1 || endFret > nFrets) endFret = nFrets;
     
     const int CELL_WIDTH = 6;
 
-    // 1. Header (Fret numbers)
+    // 1. Header: Print fret numbers aligned with the fret cells
     std::cout << std::string(CELL_WIDTH, ' '); 
     for (int f = startFret; f <= endFret; ++f) {
         std::cout << std::setw(CELL_WIDTH) << f;
     }
     std::cout << "\n";
 
-    // 2. Strings
+    // 2. Strings: Iterate through each guitar string from highest (E4) to lowest (E2)
     for (const auto& str : strings) {
+        // Print the string's root note label (e.g., "E4")
         std::string label = str.getRootNote().toString(useSharps, true);
         std::cout << std::setw(CELL_WIDTH - 1) << label << "|";
 
+        // Print each fret position for the current string
         for (int f = startFret; f <= endFret; ++f) {
             Note n = str.getNoteAtFret(f);
             bool accidental = n.isAccidental();
             std::string noteName = n.toString(useSharps, false);
             std::string display;
 
+            // Check if this note is part of the currently highlighted scale
             bool isHighlighted = highlightedNotes.count(static_cast<NoteName>(static_cast<int>(n.name) % 12));
 
+            // Determine what to display based on note type and visibility settings
             if (!accidental || showAccidentals || isHighlighted) {
-                if (isHighlighted) display = RED + BOLD + noteName + RESET;
-                else if (accidental) display = YELLOW + noteName + RESET;
-                else if (n.name == str.getRootNote().name) display = GREEN + BOLD + noteName + RESET;
-                else display = CYAN + noteName + RESET;
+                if (isHighlighted) display = RED + BOLD + noteName + RESET;           // Highlighted scale notes (Red)
+                else if (accidental) display = YELLOW + noteName + RESET;            // Sharp/Flat notes (Yellow)
+                else if (n.name == str.getRootNote().name) display = GREEN + BOLD + noteName + RESET; // Root/Octaves of open string (Green)
+                else display = CYAN + noteName + RESET;                              // Natural notes (Cyan)
             } else {
-                display = "---";
+                display = "---"; // Hide accidental if not requested or highlighted
                 noteName = "---";
             }
 
+            // Cell centering logic: padding the note name to fit the fret cell
             if (f == 0) {
+                // Fret 0 (Nut) uses a double-pipe separator and space padding
                 int padLeft = (4 - noteName.length()) / 2;
                 int padRight = 4 - noteName.length() - padLeft;
                 std::cout << std::string(padLeft, ' ') << display << std::string(padRight, ' ') << "||";
             } else {
+                // Other frets use single pipe and dash padding to simulate string lines
                 int padLeft = (5 - noteName.length()) / 2;
                 int padRight = 5 - noteName.length() - padLeft;
                 std::cout << std::string(padLeft, '-') << display << std::string(padRight, '-') << "|";
@@ -114,7 +122,7 @@ void FretBoard::render(bool showAccidentals, int startFret, int endFret) {
         std::cout << "\n";
     }
 
-    // 3. Markers
+    // 3. Markers: Print position dots (single at 3,5,7,9... and double at 12,24)
     std::cout << std::string(CELL_WIDTH, ' ');
     for (int f = startFret; f <= endFret; ++f) {
         bool marker = (f == 3 || f == 5 || f == 7 || f == 9 || f == 15 || f == 17 || f == 19 || f == 21);
@@ -124,6 +132,7 @@ void FretBoard::render(bool showAccidentals, int startFret, int endFret) {
         if (f == 0) {
             std::cout << std::string(CELL_WIDTH, ' ');
         } else {
+            // Center the marker under the fret cell
             int padLeft = (5 - sym.length()) / 2;
             int padRight = 5 - sym.length() - padLeft;
             std::cout << std::string(padLeft, ' ') << sym << std::string(padRight + 1, ' ');
